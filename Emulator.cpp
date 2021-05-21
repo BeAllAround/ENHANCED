@@ -55,47 +55,43 @@ PRIVATE:PROTECTED:
 		_Emulator(std::string, std::string);
 
 		BOOL iterate(void){
-			if(entry.length()==c1)return false;
-			else{
-				_current = entry[c1++];
-				return true;
-			};
+			if(c1==entry.length())return false;
+			_current = entry[c1++];
+			return true;
 		};
 
-		int next(void){
+		BOOL next(void){
 			std::string empty("");
 			IF(_switch){
 				_current = entry;
 				_switch = false;
 				_switch2 = true;
-				return 1;
+				return true;
 			}
-			IF(_switch2)return 0;
+			IF(_switch2)return false;
 
 			if(_NOT COND){
 				for(int i=c; i<entry.length(); i++){
 					if(_trim(entry, split, i, split.length())){
 						c = i + split.length();
 						_current = empty;
-						return 1;
+						return true;
 					}	
 					empty += entry[i];
 
 				};
-				return 0;
+				return false;
 			}else{
 				return iterate();
 			}
 		};
 
 		std::string current(){
-			return _current;
+			return _current; // access the variable;
 		};
 
 };
-_Emulator::_Emulator(std::string entry, std::string split):split{split}, entry{entry+split}, COND{split==(std::string)""}{
-			IF(match(entry, split, 0)==-1)_switch = true;
-};
+_Emulator::_Emulator(std::string entry, std::string split):split{split}, entry{entry+split}, COND{split==(std::string)""}, _switch{match(entry, split, 0)==-1}{};
 
 
 std::vector<std::string>implement(std::string str, std::string split){
@@ -108,18 +104,17 @@ std::vector<std::string>implement(std::string str, std::string split){
 };
 
 void printOut(std::vector<std::string>loop){
-	std::cout << "[ ";
+	std::cout << "[";
 	for(int i =0; i<loop.size(); i++){
-		std::cout << loop[i] << ", ";
+		std::cout << loop[i];
+		if(i!=loop.size()-1)std::cout<< ", ";
 	}
 	std::cout << "]\n";
 }
 
-int main(void){
-	auto e = _Emulator("Write me something", " ");
-	std::string s = "", s1="";
+int main(void){ // make sure you run a substantial number of tests!
 
-	e = _Emulator("Write  me something  45 ", " ");
+	auto e = _Emulator("  Write  me something  45  ", "  "); // output: ["", "Write", "me something", "45", ""]
 	std::cout << "[ ";
 	while(e.next()){
 		std::cout << e.current() << ", ";
@@ -127,7 +122,7 @@ int main(void){
 	std::cout << "]\n";
 	printOut(implement("gobble  de  gook", "  "));
 	printOut(implement("gobble de gook", " "));
-	printOut(implement("gobble de gook", "")); // empty string
+	printOut(implement("gobble de gook", "")); // empty string: ["g", "o", "b", "b", "l", "e", " ", "d", "e", " ", "g", "o", "o", "k"]
 	auto _a = implement("GNU", " ");
 	std::cout << _a[0] << std::endl; // output: "GNU"
 
