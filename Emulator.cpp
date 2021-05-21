@@ -1,7 +1,4 @@
-#include<iostream>
-#include<string>
-#include<iterator>
-#include<vector>
+#include"./prerequisites.h"
 
 #define INT int
 #define PUBLIC public
