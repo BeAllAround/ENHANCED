@@ -43,6 +43,7 @@ BOOL _trim(std::string _string, std::string _match,int back, int forward){
 	return s==_match;
 };
 
+namespace ENHANCED{
 class _Emulator{
 PRIVATE:PROTECTED:
 	std::string split, entry, _current;
@@ -91,11 +92,12 @@ PRIVATE:PROTECTED:
 		};
 
 };
-_Emulator::_Emulator(std::string entry, std::string split):split{split}, entry{entry+split}, COND{split==(std::string)""}, _switch{match(entry, split, 0)==-1}{};
+}
+ENHANCED::_Emulator::_Emulator(std::string entry, std::string split):split{split}, entry{entry+split}, COND{split==(std::string)""}, _switch{match(entry, split, 0)==-1}{};
 
 
 std::vector<std::string>implement(std::string str, std::string split){
-	_Emulator e = _Emulator(str, split);
+	ENHANCED::_Emulator e(str, split);
 	std::vector<std::string>myData;
 	while(e.next()){
 		myData.push_back(e.current());
@@ -114,7 +116,7 @@ void printOut(std::vector<std::string>loop){
 
 int main(void){ // make sure you run a substantial number of tests!
 
-	auto e = _Emulator("  Write  me something  45  ", "  "); // output: ["", "Write", "me something", "45", ""]
+	auto e = ENHANCED::_Emulator("  Write  me something  45  ", "  "); // output: ["", "Write", "me something", "45", ""]
 	std::cout << "[ ";
 	while(e.next()){
 		std::cout << e.current() << ", ";
