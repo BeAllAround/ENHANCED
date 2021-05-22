@@ -89,18 +89,20 @@ PRIVATE:PROTECTED:
 		};
 
 };
+	std::vector<std::string>split(std::string, std::string);
 }
+
 ENHANCED::_Emulator::_Emulator(std::string entry, std::string split):split{split}, entry{entry+split}, COND{split==(std::string)""}, _switch{match(entry, split, 0)==-1}{};
 
-
-std::vector<std::string>implement(std::string str, std::string split){
+std::vector<std::string>ENHANCED::split(std::string str, std::string split){
 	ENHANCED::_Emulator e(str, split);
 	std::vector<std::string>myData;
 	while(e.next()){
 		myData.push_back(e.current());
 	}
 	return myData;
-};
+}
+
 
 void printOut(std::vector<std::string>loop){
 	std::cout << "[";
@@ -119,10 +121,10 @@ int main(void){ // make sure you run a substantial number of tests!
 		std::cout << e.current() << ", ";
 	};
 	std::cout << "]\n";
-	printOut(implement("gobble  de  gook", "  "));
-	printOut(implement("gobble de gook", " "));
-	printOut(implement("gobble de gook", "")); // empty string: ["g", "o", "b", "b", "l", "e", " ", "d", "e", " ", "g", "o", "o", "k"]
-	auto _a = implement("GNU", " ");
+	printOut(ENHANCED::split("  gobble  de  gook  ", "  "));
+	printOut(ENHANCED::split("gobble de gook", " "));
+	printOut(ENHANCED::split("gobble de gook", "")); // empty string: ["g", "o", "b", "b", "l", "e", " ", "d", "e", " ", "g", "o", "o", "k"]
+	auto _a = ENHANCED::split("GNU", " ");
 	std::cout << _a[0] << std::endl; // output: "GNU"
 
 	return 0;
