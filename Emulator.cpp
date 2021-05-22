@@ -114,17 +114,20 @@ void printOut(std::vector<std::string>loop){
 }
 
 int main(void){ // make sure you run a substantial number of tests!
-
-	auto e = ENHANCED::_Emulator("  Write  me something  45  ", "  "); // output: ["", "Write", "me something", "45", ""]
+	// you can use it by iterating over an Emulator
+	auto e = ENHANCED::_Emulator("  Write  me something  45  ", "  "); 
 	std::cout << "[ ";
 	while(e.next()){
 		std::cout << e.current() << ", ";
 	};
 	std::cout << "]\n";
-	printOut(ENHANCED::split("  gobble  de  gook  ", "  "));
-	printOut(ENHANCED::split("gobble de gook", " "));
+	// output: ["", "Write", "me something", "45", ""]
+
+	// or you can use it as a vector
+	printOut(ENHANCED::split("  gobble  de  gook  ", "  ")); // output: ["", "gobble", "de", "gook", ""]
+	printOut(ENHANCED::split("gobble de gook", " ")); // output: ["gobble", "de", "gook"]
 	printOut(ENHANCED::split("gobble de gook", "")); // empty string: ["g", "o", "b", "b", "l", "e", " ", "d", "e", " ", "g", "o", "o", "k"]
-	auto _a = ENHANCED::split("GNU", " ");
+	auto _a = ENHANCED::split("GNU", " "); // can't split!
 	std::cout << _a[0] << std::endl; // output: "GNU"
 
 	return 0;
