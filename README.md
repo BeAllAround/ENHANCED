@@ -26,5 +26,5 @@ Samples are included in the main function of each file; or you can check them ou
 	printOut(ENHANCED::split("  gobble  de  gook  ", "  ")); // output: ["", "gobble", "de", "gook", ""]
 	printOut(ENHANCED::split("gobble de gook", " ")); // output: ["gobble", "de", "gook"]
 	printOut(ENHANCED::split("gobble de gook", "")); // empty string: ["g", "o", "b", "b", "l", "e", " ", "d", "e", " ", "g", "o", "o", "k"]
-	auto _a = ENHANCED::split("GNU", " ");
+	auto _a = ENHANCED::split("GNU", " "); // can't split!
 	std::cout << _a[0] << std::endl; // output: "GNU"
