@@ -4,7 +4,7 @@ The ENHANCED library is an API set up of some of the modern methods written in C
 
 The purpose of writting it is to make life easier for C++ developers who prefer back-end toolsets to be written stricly in C++. For the simple reason that we could extend them, analyse the complexity and most importantly not lose performance.
 
-Still in development! The split function is available as a tryout and it runs properly. In case you wanna use the API, delete the main section and import it from the current working directory.
+Still in development, the split function is available as a tryout and it runs properly. In case you wanna use the API, delete the main section and import it from the current working directory.
 
 
 All definitions declared within the ENHANCED namespace.
