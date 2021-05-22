@@ -23,8 +23,8 @@ Samples are included in the main function of each file; or you can check them ou
 	// output: ["", "Write", "me something", "45", ""]
 	
 	// or you can use it as a vector
-	printOut(implement("  gobble  de  gook  ", "  ")); // output: ["", "gobble", "de", "gook", ""]
-	printOut(implement("gobble de gook", " ")); // output: ["gobble", "de", "gook"]
-	printOut(implement("gobble de gook", "")); // empty string: ["g", "o", "b", "b", "l", "e", " ", "d", "e", " ", "g", "o", "o", "k"]
-	auto _a = implement("GNU", " ");
+	printOut(ENHANCED::split("  gobble  de  gook  ", "  ")); // output: ["", "gobble", "de", "gook", ""]
+	printOut(ENHANCED::split("gobble de gook", " ")); // output: ["gobble", "de", "gook"]
+	printOut(ENHANCED::split("gobble de gook", "")); // empty string: ["g", "o", "b", "b", "l", "e", " ", "d", "e", " ", "g", "o", "o", "k"]
+	auto _a = ENHANCED::split("GNU", " ");
 	std::cout << _a[0] << std::endl; // output: "GNU"
