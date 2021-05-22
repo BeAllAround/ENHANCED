@@ -13,13 +13,15 @@ Samples are included in the main function of each file; or you can check them ou
 
 ## Examples:
 
-
+	// you can use it by iterating over an Emulator
 	auto e = ENHANCED::_Emulator("  Write  me something  45  ", "  "); // output: ["", "Write", "me something", "45", ""]
 	std::cout << "[ ";
 	while(e.next()){
 		std::cout << e.current() << ", ";
 	};
 	std::cout << "]\n";
+	
+	// or you can use it as a vector
 	printOut(implement("  gobble  de  gook  ", "  ")); // output: ["", "gobble", "de", "gook", ""]
 	printOut(implement("gobble de gook", " ")); // output: ["gobble", "de", "gook"]
 	printOut(implement("gobble de gook", "")); // empty string: ["g", "o", "b", "b", "l", "e", " ", "d", "e", " ", "g", "o", "o", "k"]
