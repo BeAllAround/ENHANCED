@@ -28,3 +28,26 @@ Samples are included in the main function of each file; or you can check them ou
 	printOut(ENHANCED::split("gobble de gook", "")); // empty string: ["g", "o", "b", "b", "l", "e", " ", "d", "e", " ", "g", "o", "o", "k"]
 	auto _a = ENHANCED::split("GNU", " "); // can't split!
 	std::cout << _a[0] << std::endl; // output: "GNU"
+	
+	
+	// usage of the Iterator;
+	
+	ENHANCED::Iterator<char*>iterator;
+	
+	iterator<<"I'm"; // append( item: Type );
+	iterator<< " goofy";
+
+	while(++iterator){ // loop in order
+		std::cout << "index: " << iterator.index() << " " << *iterator << std::endl;
+	}
+	for(;--iterator;){ // loop in reverse
+		std::cout << "index: " << iterator.index() << " " << *iterator << std::endl;
+	}
+	while(++iterator){
+		std::cout << "index: " << iterator.index() << " " << *iterator << std::endl;
+	}
+
+	auto vectorIterator = iterator.toVector(); // conversion to std::vector;
+	for(int i = 0; i<vectorIterator.size(); i++){
+		std::cout << vectorIterator[i] << std::endl;		
+	}
