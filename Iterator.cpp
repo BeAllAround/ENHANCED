@@ -10,7 +10,7 @@ class Iterator{
 	public:
 		Iterator():data{(T*)malloc(1000)}, size{0}, counter{-1}{}; // set-up;
 
-		Iterator<T>&Yield(T v){
+		Iterator<T>&operator<<(T v){
 			data[size++] = v;
 			return*this;
 		};
@@ -54,9 +54,10 @@ class Iterator{
 
 int main(){
 	ENHANCED::Iterator<char*>iterator;
+	
+	iterator<<"I'm";
+	iterator<< " goofy";
 
-	iterator.Yield("I AM");
-	iterator.Yield("goofy");
 	while(++iterator){
 		std::cout << "index: " << iterator.index() << " " << *iterator << std::endl;
 	}
