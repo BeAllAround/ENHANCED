@@ -16,7 +16,7 @@ class Iterator{
 		};
 
 		int index(){ return counter==-1 ? 0 : counter; };
-		void empty(){ 
+		void empty(){ // do the same thing as in the constructor!
 			data = (T*)malloc(1000); 
 			counter = -1;
 			size = 0;
