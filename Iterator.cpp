@@ -16,10 +16,31 @@ class Iterator{
 		};
 
 		int index(){ return counter==-1 ? 0 : counter; };
+		void empty(){ 
+			data = (T*)malloc(1000); 
+			counter = -1;
+			size = 0;
+		};
+
+		void replace(Iterator<T>&input, Iterator<T>&output){
+			input.empty();
+			while(++output){
+				input<<(*output);	
+			}	
+		}
+
+		T&atIndex(int index){ 
+			if(index==-1 && index>counter)throw "INVALID INDEX!";
+			return data[index];
+		};
 
 		int length(){ return size;};
 		T&last(){ return data[size-1]; };
 
+		bool includes(T);
+		bool remove(T);			
+		int findIndex(T);
+		void pop(void);
 
 		bool operator++(){
 			counter++;
@@ -50,6 +71,64 @@ class Iterator{
 		}
 };
 }
+
+template<class T>
+bool ENHANCED::Iterator<T>::includes(T item){
+	int i = 0;
+	while(i<size){
+		if(this->atIndex(i)==item)return true;
+		i++;
+	}
+	return false;
+}
+template<class T>
+int ENHANCED::Iterator<T>::findIndex(T item){
+	int i=0;
+	while(i<size){
+		if(this->atIndex(i)==item)return i;
+		i++;
+	}
+	return-1;
+}
+template<class T>
+bool ENHANCED::Iterator<T>::remove(T item){
+	ENHANCED::Iterator<T>newOne;
+
+	if(includes(item)){
+		// std::cout << "DEBUG 1: -> " << findIndex(item) <<std::endl;	
+		if(findIndex(item)==0){
+			for(int i = 1; i<size; i++){
+				newOne<<(this->atIndex(i));
+				//std::cout << "#1 DEBUG: " << this->atIndex(i) << std::endl;
+			}	
+			replace(*this, newOne);
+			return true;
+				
+		}
+		for(int i=0; i<findIndex(item); i++){
+			newOne<<(this->atIndex(i));
+		}
+		for(int i=findIndex(item)+1; i<size; i++){
+			newOne<<(this->atIndex(i));
+			// std::cout << "#2 DEBUG: " << this->atIndex(i) << std::endl;
+		}
+		replace(*this, newOne);
+		return true;
+
+	}
+	return false;
+}
+template<class T>
+void ENHANCED::Iterator<T>::pop(){
+	ENHANCED::Iterator<T>newOne;
+	if(size!=0){
+		for(int i=0; i<size-1; i++){
+			newOne<<this->atIndex(i);
+		}
+		return replace(*this, newOne);
+	}
+	throw"CAN'T POP!";
+}
 		
 
 int main(){
@@ -57,21 +136,34 @@ int main(){
 	
 	iterator<<"I'm";
 	iterator<< " goofy";
+	iterator<<"me";
+	iterator<<"are";
+	std::cout << iterator.remove("me") << std::endl;
+	iterator.pop();
 
+	std::cout << "----------------" << std::endl;
 	while(++iterator){
 		std::cout << "index: " << iterator.index() << " " << *iterator << std::endl;
 	}
+
 	for(;--iterator;){
 		std::cout << "index: " << iterator.index() << " " << *iterator << std::endl;
 	}
 	while(++iterator){
 		std::cout << "index: " << iterator.index() << " " << *iterator << std::endl;
 	}
+	while(++iterator){
+		std::cout << "index: " << iterator.index() << " " << *iterator << std::endl;
+	}
+	std::cout << "----------------" << std::endl;
+
 
 	auto vectorIterator = iterator.toVector();
 	for(int i = 0; i<vectorIterator.size(); i++){
-		std::cout << vectorIterator[i] << std::endl;		
+		std::cout << vectorIterator[i];		
 	}
+	std::cout << std::endl;
+	// outputs: "I'm goofy"
 
 	return 0;
 };
