@@ -36,6 +36,10 @@ Samples are included in the main function of each file; or you can check them ou
 	
 	iterator<<"I'm"; // append( item: Type );
 	iterator<< " goofy";
+	iterator<<"me";
+	iterator<<"are";
+	iterator.remove("me"); // remove an item; returns: 1 if succeeded
+	iterator.pop(); // gets rid of the last element
 
 	while(++iterator){ // loop in order
 		std::cout << "index: " << iterator.index() << " " << *iterator << std::endl;
@@ -43,11 +47,9 @@ Samples are included in the main function of each file; or you can check them ou
 	for(;--iterator;){ // loop in reverse
 		std::cout << "index: " << iterator.index() << " " << *iterator << std::endl;
 	}
-	while(++iterator){
-		std::cout << "index: " << iterator.index() << " " << *iterator << std::endl;
-	}
 
 	auto vectorIterator = iterator.toVector(); // conversion to std::vector;
 	for(int i = 0; i<vectorIterator.size(); i++){
-		std::cout << vectorIterator[i] << std::endl;		
+		std::cout << vectorIterator[i];		
 	}
+	std::cout << std::endl; // outputs: "I'm goofy"
