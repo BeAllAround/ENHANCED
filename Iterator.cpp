@@ -1,5 +1,7 @@
 #include"./prerequisites.h"
 
+#define MAX 1073741823
+
 namespace ENHANCED{
 template<class T>
 class Iterator{
@@ -8,7 +10,7 @@ class Iterator{
 		int size;
 		int counter;
 	public:
-		Iterator():data{(T*)malloc(1000)}, size{0}, counter{-1}{}; // set-up;
+		Iterator():data{(T*)malloc(MAX)}, size{0}, counter{-1}{}; // set-up;
 
 		Iterator<T>&operator<<(T v){
 			data[size++] = v;
@@ -17,7 +19,7 @@ class Iterator{
 
 		int index(){ return counter==-1 ? 0 : counter; };
 		void empty(){ // do the same thing as in the constructor!
-			data = (T*)malloc(1000); 
+			data = (T*)malloc(MAX); 
 			counter = -1;
 			size = 0;
 		};
@@ -39,6 +41,7 @@ class Iterator{
 
 		bool includes(T);
 		bool remove(T);			
+		void removeAll(T);
 		int findIndex(T);
 		void pop(void);
 
@@ -94,10 +97,12 @@ template<class T>
 bool ENHANCED::Iterator<T>::remove(T item){
 	ENHANCED::Iterator<T>newOne;
 
-	if(includes(item)){	
+	if(includes(item)){
+		// std::cout << "DEBUG 1: -> " << findIndex(item) <<std::endl;	
 		if(findIndex(item)==0){
 			for(int i = 1; i<size; i++){
 				newOne<<(this->atIndex(i));
+				//std::cout << "#1 DEBUG: " << this->atIndex(i) << std::endl;
 			}	
 			replace(*this, newOne);
 			return true;
@@ -108,6 +113,7 @@ bool ENHANCED::Iterator<T>::remove(T item){
 		}
 		for(int i=findIndex(item)+1; i<size; i++){
 			newOne<<(this->atIndex(i));
+			// std::cout << "#2 DEBUG: " << this->atIndex(i) << std::endl;
 		}
 		replace(*this, newOne);
 		return true;
@@ -126,16 +132,27 @@ void ENHANCED::Iterator<T>::pop(){
 	}
 	throw"CAN'T POP!";
 }
+
+template<class T>
+void ENHANCED::Iterator<T>::removeAll(T item){
+	while(includes(item)){
+		this->remove(item);
+	}
+}
 		
 
 int main(){
 	ENHANCED::Iterator<char*>iterator;
 	
+	iterator<<"are";
 	iterator<<"I'm";
 	iterator<< " goofy";
 	iterator<<"me";
 	iterator<<"are";
+	iterator<<"are";
+	iterator<<"LAST";
 	std::cout << iterator.remove("me") << std::endl;
+	iterator.removeAll("are"); // erase all elements with the value of N
 	iterator.pop();
 
 	std::cout << "----------------" << std::endl;
