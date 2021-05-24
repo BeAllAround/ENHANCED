@@ -1,4 +1,4 @@
-#include"./Emulator.cc"
+#include "./Emulator.cc"
 
 using namespace ENHANCED;
 
@@ -12,46 +12,8 @@ void printOut(std::vector<std::string>loop){
 }
 
 int main(){
-	ENHANCED::Iterator<std::string>iterator;
-
-	iterator<<"are";
-	iterator<<"I'm";
-	iterator<< " goofy";
-	iterator<<"me";
-	iterator<<"are";
-	iterator<<"are";
-	iterator<<"are";
-	iterator<<"LAST";
-	std::cout << iterator.remove("me") << std::endl;
-	iterator.removeAll("are"); // erase all elements with the value of N
-	iterator.pop();
-
-	std::cout << "----------------" << std::endl;
-	while(++iterator){
-		std::cout << "index: " << iterator.index() << " " << *iterator << std::endl;
-	}
-
-	for(;--iterator;){
-		std::cout << "index: " << iterator.index() << " " << *iterator << std::endl;
-	}
-	while(++iterator){
-		std::cout << "index: " << iterator.index() << " " << *iterator << std::endl;
-	}
-	while(++iterator){
-		std::cout << "index: " << iterator.index() << " " << *iterator << std::endl;
-	}
-	std::cout << "----------------" << std::endl;
-
-
-	auto vectorIterator = iterator.toVector();
-	for(int i = 0; i<vectorIterator.size(); i++){
-		std::cout << vectorIterator[i];		
-	}
-	std::cout << std::endl;
-	// outputs: "I'm goofy"
-	
 	// you can use it by iterating over an Emulator
-	auto e = ENHANCED::_Emulator("  Write  me something  45  ", "  ");
+	auto e = ENHANCED::_Emulator("  Write  me something  45  ", "  "); 
 	std::cout << "[ ";
 	while(e.next()){
 		std::cout << e.current() << ", ";
@@ -66,17 +28,45 @@ int main(){
 	auto _a = ENHANCED::split("GNU", " "); // can't split!
 	std::cout << _a[0] << std::endl; // output: "GNU"
 
+
+	// usage of the Iterator;
+
+	ENHANCED::Iterator<char*>iterator;
+
+	iterator<<"I'm"; // append( item: Type );
+	iterator<< " goofy";
+	iterator<<"me";
+	iterator<<"are";
+	iterator<<"are";
+	iterator<<"DUMP";
+	iterator.remove("me"); // remove an item; returns: 1 if succeeded
+	iterator.removeAll("are"); // erase all elements with the value of N
+	iterator.pop(); // gets rid of the last element
+
+	while(++iterator){ // loop in order
+		std::cout << "index: " << iterator.index() << " " << *iterator << std::endl;
+	}
+	for(;--iterator;){ // loop in reverse
+		std::cout << "index: " << iterator.index() << " " << *iterator << std::endl;
+	}
+
+	auto vectorIterator = iterator.toVector(); // conversion to std::vector;
+	for(int i = 0; i<vectorIterator.size(); i++){
+		std::cout << vectorIterator[i];		
+	}
+	std::cout << std::endl; // outputs: "I'm goofy"
+
 	ENHANCED::Iterator<std::string>_iter = splitToIterator(" REAL WHERE TO GO   ", " "); // pack it up into an Iterator
 
 	_iter.remove("REAL");
-	_iter.removeAll("");
+	_iter.removeAll(""); // clear the string of empty data
 	_iter<<"?";
 	std::cout << "-----------------" << std::endl;
 	while(++_iter){
 		std::cout << (*_iter);
 
 	}
-	std::cout << std::endl;
+	std::cout << std::endl; // output: "WHERETOGO?"
 	std::cout << "-----------------" << std::endl;
 
 	return 0;

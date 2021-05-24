@@ -1,4 +1,4 @@
-#include"./prerequisites.h"
+#include "./prerequisites.h"
 
 #define MAX 100000 // still in question
 
@@ -142,4 +142,3 @@ void ENHANCED::Iterator<T>::removeAll(T item){
 		this->remove(item);
 	}
 }
-		
