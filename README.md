@@ -38,7 +38,10 @@ Samples are included in the main function of each file; or you can check them ou
 	iterator<< " goofy";
 	iterator<<"me";
 	iterator<<"are";
+	iterator<<"are";
+	iterator<<"DUMP";
 	iterator.remove("me"); // remove an item; returns: 1 if succeeded
+	iterator.removeAll("are"); // erase all elements with the value of N
 	iterator.pop(); // gets rid of the last element
 
 	while(++iterator){ // loop in order
