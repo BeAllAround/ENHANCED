@@ -44,10 +44,10 @@ class Iterator{
 		int length(){ return size;};
 		T&last(){ return data[size-1]; };
 
-		bool includes(T);
-		bool remove(T);			
-		void removeAll(T);
-		int findIndex(T);
+		bool includes(T const);
+		bool remove(T const);
+		void removeAll(T const);
+		int findIndex(T const);
 		void pop(void);
 
 		bool operator++(){
@@ -81,7 +81,7 @@ class Iterator{
 }
 
 template<class T>
-bool ENHANCED::Iterator<T>::includes(T item){
+bool ENHANCED::Iterator<T>::includes(T const item){
 	int i = 0;
 	while(i<size){
 		if(this->atIndex(i)==item)return true;
@@ -91,7 +91,7 @@ bool ENHANCED::Iterator<T>::includes(T item){
 	return false;
 }
 template<class T>
-int ENHANCED::Iterator<T>::findIndex(T item){
+int ENHANCED::Iterator<T>::findIndex(T const item){
 	int i=0;
 	while(i<size){
 		if(this->atIndex(i)==item)return i;
@@ -100,7 +100,7 @@ int ENHANCED::Iterator<T>::findIndex(T item){
 	return-1;
 }
 template<class T>
-bool ENHANCED::Iterator<T>::remove(T item){
+bool ENHANCED::Iterator<T>::remove(T const item){
 	ENHANCED::Iterator<T>newOne;
 
 	if(includes(item)){
@@ -137,7 +137,7 @@ void ENHANCED::Iterator<T>::pop(){
 }
 
 template<class T>
-void ENHANCED::Iterator<T>::removeAll(T item){
+void ENHANCED::Iterator<T>::removeAll(T const item){
 	while(includes(item)){
 		this->remove(item);
 	}
