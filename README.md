@@ -9,7 +9,7 @@ Still in development, the split function is available as a tryout and it runs pr
 
 All definitions declared within the ENHANCED namespace.
 
-Samples are included in the main function of each file; or you can check them out here.
+Samples are included in the main file; or you can check them out here.
 
 ## Examples:
 
@@ -56,3 +56,16 @@ Samples are included in the main function of each file; or you can check them ou
 		std::cout << vectorIterator[i];		
 	}
 	std::cout << std::endl; // outputs: "I'm goofy"
+	
+	ENHANCED::Iterator<std::string>_iter = splitToIterator(" REAL WHERE TO GO   ", " "); // pack it up into an Iterator
+
+	_iter.remove("REAL");
+	_iter.removeAll(""); // clear the string of empty data
+	_iter<<"?";
+	std::cout << "-----------------" << std::endl;
+	while(++_iter){
+		std::cout << (*_iter);
+
+	}
+	std::cout << std::endl; // output: "WHERETOGO?"
+	std::cout << "-----------------" << std::endl;
