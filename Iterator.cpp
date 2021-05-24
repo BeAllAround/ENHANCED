@@ -98,11 +98,9 @@ bool ENHANCED::Iterator<T>::remove(T item){
 	ENHANCED::Iterator<T>newOne;
 
 	if(includes(item)){
-		// std::cout << "DEBUG 1: -> " << findIndex(item) <<std::endl;	
 		if(findIndex(item)==0){
 			for(int i = 1; i<size; i++){
 				newOne<<(this->atIndex(i));
-				//std::cout << "#1 DEBUG: " << this->atIndex(i) << std::endl;
 			}	
 			replace(*this, newOne);
 			return true;
@@ -113,7 +111,6 @@ bool ENHANCED::Iterator<T>::remove(T item){
 		}
 		for(int i=findIndex(item)+1; i<size; i++){
 			newOne<<(this->atIndex(i));
-			// std::cout << "#2 DEBUG: " << this->atIndex(i) << std::endl;
 		}
 		replace(*this, newOne);
 		return true;
