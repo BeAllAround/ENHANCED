@@ -50,6 +50,14 @@ class Iterator{
 		int findIndex(T const);
 		void pop(void);
 
+		Iterator<T>reduce(auto callback){ // just use "auto" as lambda is a possible input
+			Iterator<T>arr;
+			while(this->operator++()){
+				arr<<(callback(this->operator*()));
+			}
+			return arr;
+		}
+
 		bool operator++(){
 			counter++;
 			if(counter==size){
