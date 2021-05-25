@@ -87,7 +87,6 @@ bool ENHANCED::Iterator<T>::includes(T const item){
 		if(this->atIndex(i)==item)return true;
 		i++;
 	}
-
 	return false;
 }
 template<class T>
@@ -138,7 +137,5 @@ void ENHANCED::Iterator<T>::pop(){
 
 template<class T>
 void ENHANCED::Iterator<T>::removeAll(T const item){
-	while(includes(item)){
-		this->remove(item);
-	}
+	while(remove(item));
 }
