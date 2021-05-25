@@ -49,6 +49,9 @@ class Iterator{
 		void removeAll(T const);
 		int findIndex(T const);
 		void pop(void);
+		bool auxiliary(){
+			return(counter == (size-1));
+		}
 
 		template<class C, class...types>
 		Iterator<T>reduce(C callback, types...args){ // just use "auto" as lambda is a possible input
@@ -69,7 +72,7 @@ class Iterator{
 		}
 
 		bool operator--(){
-			if(counter == -1) counter = size; // modify;
+			if(counter == -1)counter = size; // modify;
 			counter--;
 			if(counter==-1)return false;
 			return true;
