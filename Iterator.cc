@@ -9,6 +9,9 @@ class Iterator{
 		T*data;
 		int size;
 		int counter;
+		bool auxiliary(){
+			return(counter == (size-1));
+		}
 	public:
 		Iterator():data{new T[MAX]}, size{0}, counter{-1}{}; // set-up;
 
@@ -48,16 +51,27 @@ class Iterator{
 		bool remove(T const);
 		void removeAll(T const);
 		int findIndex(T const);
-		void pop(void);
-		bool auxiliary(){
-			return(counter == (size-1));
-		}
+		bool pop(void);
+		T str();
+		T str(T const);
+
 
 		template<class C, class...types>
 		Iterator<T>reduce(C callback, types...args){ // just use "auto" as lambda is a possible input
 			Iterator<T>arr;
 			while(this->operator++()){
 				arr<<(callback(this->operator*(), args...));
+			}
+			return arr;
+		}
+
+		template<class C, class...types>
+		Iterator<T>filter(C callback, types...args){
+			Iterator<T>arr;
+			while(this->operator++()){
+				if(callback(this->operator*(), args...)){
+					arr<<(this->operator*());
+				}
 			}
 			return arr;
 		}
@@ -90,6 +104,22 @@ class Iterator{
 			return arr;
 		}
 };
+}
+
+template<>
+std::string ENHANCED::Iterator<std::string>::str(std::string const join){
+	std::string String;
+	while(this->operator++()){
+		String+=this->operator*();
+		if(!auxiliary()){
+			String+=join;
+		}
+	}
+	return String;
+}
+template<>
+std::string ENHANCED::Iterator<std::string>::str(void){
+	return str(""); // reuse virtually the same function
 }
 
 template<class T>
@@ -136,15 +166,17 @@ bool ENHANCED::Iterator<T>::remove(T const item){
 	return false;
 }
 template<class T>
-void ENHANCED::Iterator<T>::pop(){
-	ENHANCED::Iterator<T>newOne;
-	if(size!=0){
+bool ENHANCED::Iterator<T>::pop(){
+	// ENHANCED::Iterator<T>newOne;
+	return remove(data[size-1]);
+	/*if(size!=0){
 		for(int i=0; i<size-1; i++){
 			newOne<<(this->atIndex(i));
 		}
 		return replace(*this, newOne);
 	}
 	throw"CAN'T POP!";
+	*/
 }
 
 template<class T>
