@@ -59,8 +59,20 @@ int main(){
 	ENHANCED::Iterator<std::string>_iter = splitToIterator(" REAL WHERE TO GO   ", " "); // pack it up into an Iterator
 
 	_iter.remove("REAL");
+	_iter<<"!";
 	_iter.removeAll(""); // clear the string of empty data
-	_iter<<"?";
+	_iter = _iter.reduce([](auto&item){
+                if(item=="!")return(std::string)"?";
+                return item;
+        });
+	
+        /*
+        _iter = _iter.reduce([](auto&item){
+                if(item!="?") return item;
+                return(std::string)"";
+        });
+        */
+
 	std::cout << "-----------------" << std::endl;
 	while(++_iter){
 		std::cout << (*_iter);
