@@ -54,13 +54,14 @@ class Iterator{
 		bool pop(void);
 		T str();
 		T str(T const);
+		Iterator<T>trim(int, int);
 
 
 		template<class C, class...types>
 		Iterator<T>reduce(C callback, types...args){ // just use "auto" as lambda is a possible input
 			Iterator<T>arr;
 			while(this->operator++()){
-				arr<<(callback(this->operator*(), args...));
+				arr<<(callback(this->operator*(), counter, args...));
 			}
 			return arr;
 		}
@@ -69,9 +70,8 @@ class Iterator{
 		Iterator<T>filter(C callback, types...args){
 			Iterator<T>arr;
 			while(this->operator++()){
-				if(callback(this->operator*(), args...)){
-					arr<<(this->operator*());
-				}
+				if(callback(this->operator*(), counter, args...))arr<<(this->operator*());
+				
 			}
 			return arr;
 		}
@@ -182,4 +182,16 @@ bool ENHANCED::Iterator<T>::pop(){
 template<class T>
 void ENHANCED::Iterator<T>::removeAll(T const item){
 	while(remove(item));
+}
+
+template<class T>
+ENHANCED::Iterator<T>ENHANCED::Iterator<T>::trim(int start, int end){
+	int i;
+	Iterator<T>arr;
+	if(start>length() || end>length())return arr;
+
+	for(i = start; i<end; i++){
+		arr << atIndex(i);	
+	}
+	return arr;
 }
