@@ -93,7 +93,10 @@ PRIVATE:PROTECTED:
 	ENHANCED::Iterator<std::string>splitToIterator(std::string, std::string);
 }
 
-ENHANCED::_Emulator::_Emulator(std::string entry, std::string split):split{split}, entry{entry+split}, COND{split==(std::string)""}, _switch{match(entry, split, 0)==-1}{};
+ENHANCED::_Emulator::_Emulator(std::string _entry, std::string _split):split{_split}, COND{_split==(std::string)""}, _switch{match(_entry, _split, 0)==-1}{
+	(!_switch) ? entry = _entry+_split : entry = _entry;
+};
+
 
 std::vector<std::string>ENHANCED::split(std::string str, std::string split){
 	ENHANCED::_Emulator e(str, split);
