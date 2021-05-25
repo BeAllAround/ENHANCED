@@ -50,10 +50,11 @@ class Iterator{
 		int findIndex(T const);
 		void pop(void);
 
-		Iterator<T>reduce(auto callback){ // just use "auto" as lambda is a possible input
+		template<class C, class...types>
+		Iterator<T>reduce(C callback, types...args){ // just use "auto" as lambda is a possible input
 			Iterator<T>arr;
 			while(this->operator++()){
-				arr<<(callback(this->operator*()));
+				arr<<(callback(this->operator*(), args...));
 			}
 			return arr;
 		}
