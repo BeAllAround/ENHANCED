@@ -10,7 +10,8 @@
 #include <numeric>
 #include <future>
 #include <mutex>
-
+#include <cstdlib>
+#include <ctime>
 
 #include <stdio.h>
 #include <stdlib.h>
