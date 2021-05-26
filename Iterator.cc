@@ -55,6 +55,7 @@ class Iterator{
 		T str();
 		T str(T const);
 		Iterator<T>trim(int, int);
+		Iterator<T>reverse();
 
 
 		template<class C, class...types>
@@ -188,10 +189,19 @@ template<class T>
 ENHANCED::Iterator<T>ENHANCED::Iterator<T>::trim(int start, int end){
 	int i;
 	Iterator<T>arr;
-	if(start>length() || end>length())return arr;
+	if(start>length() || end>length() || start>=end)return arr;
 
 	for(i = start; i<end; i++){
 		arr << atIndex(i);	
+	}
+	return arr;
+}
+
+template<class T>
+ENHANCED::Iterator<T>ENHANCED::Iterator<T>::reverse(){
+	Iterator<T>arr;
+	while(this->operator--()){
+		arr<<this->operator*();
 	}
 	return arr;
 }
