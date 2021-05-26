@@ -13,7 +13,7 @@ void printOut(std::vector<std::string>loop){
 
 int main(){
 	// you can use it by iterating over an Emulator
-	auto e = ENHANCED::_Emulator("  Write  me something  45  ", "  "); 
+	auto e = ENHANCED::Emulator("  Write  me something  45  ", "  "); 
 	std::cout << "[ ";
 	while(e.next()){
 		std::cout << e.current() << ", ";
