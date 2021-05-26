@@ -14,7 +14,7 @@ Samples are included in the main file; or you can check them out here.
 ## Examples:
 
 	// you can use it by iterating over an Emulator
-	auto e = ENHANCED::_Emulator("  Write  me something  45  ", "  "); 
+	auto e = ENHANCED::Emulator("  Write  me something  45  ", "  "); 
 	std::cout << "[ ";
 	while(e.next()){
 		std::cout << e.current() << ", ";
