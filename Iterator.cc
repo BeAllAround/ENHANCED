@@ -52,8 +52,10 @@ class Iterator{
 		void removeAll(T const);
 		int findIndex(T const);
 		bool pop(void);
+
 		T str();
 		T str(T const);
+
 		Iterator<T>trim(int, int);
 		Iterator<T>reverse();
 
@@ -105,23 +107,24 @@ class Iterator{
 			return arr;
 		}
 };
+	
+	template<>
+	std::string Iterator<std::string>::str(std::string const join){
+		std::string String;
+		while(this->operator++()){
+			String+=this->operator*();
+			if(!auxiliary()){
+				String+=join;
+			}
+		}
+		return String;
+	}
+	template<>
+	std::string Iterator<std::string>::str(void){
+		return str((std::string)""); // reuse virtually the same function
+	}
 }
 
-template<>
-std::string ENHANCED::Iterator<std::string>::str(std::string const join){
-	std::string String;
-	while(this->operator++()){
-		String+=this->operator*();
-		if(!auxiliary()){
-			String+=join;
-		}
-	}
-	return String;
-}
-template<>
-std::string ENHANCED::Iterator<std::string>::str(void){
-	return str(""); // reuse virtually the same function
-}
 
 template<class T>
 bool ENHANCED::Iterator<T>::includes(T const item){
