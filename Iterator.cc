@@ -42,7 +42,12 @@ class Iterator{
 		T&atIndex(int index){ 
 			if(index==-1 && index>counter)throw "INVALID INDEX!";
 			return data[index];
-		};
+		}
+
+		T&operator[](int index){
+			return atIndex(index);
+		}
+
 
 		int length(){ return size;};
 		T&last(){ return data[size-1]; };
