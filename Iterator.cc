@@ -213,3 +213,17 @@ ENHANCED::Iterator<T>ENHANCED::Iterator<T>::reverse(){
 	}
 	return arr;
 }
+
+template<class T>
+std::ostream&operator<<(std::ostream&C, ENHANCED::Iterator<T>iter){
+	int c = int{0};
+	C << "[";
+	while(++iter){
+		C << *iter;
+		if(c!=iter.length()-1)
+			C << ", ";
+		c++;
+	}
+	C << "]";
+	return C;
+}

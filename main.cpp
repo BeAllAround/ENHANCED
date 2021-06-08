@@ -81,5 +81,7 @@ int main(){
 	std::cout << std::endl; // output: "WHERETOGO?"
 	std::cout << "-----------------" << std::endl;
 
+	std::cout << _iter << std::endl; // show the list format
+
 	return 0;
 }

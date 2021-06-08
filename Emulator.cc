@@ -7,6 +7,7 @@
 #define BOOL bool
 #define _NOT not
 #define IF if
+extern int match(std::string, std::string, int);
 extern BOOL _trim(std::string, std::string, int, int);
 
 int match(std::string set, std::string subset, int start){
@@ -78,8 +79,8 @@ PRIVATE:PROTECTED:
 		};
 
 };
-	std::vector<std::string>split(std::string, std::string);
-	ENHANCED::Iterator<std::string>splitToIterator(std::string, std::string);
+	extern std::vector<std::string>split(std::string, std::string);
+	extern ENHANCED::Iterator<std::string>splitToIterator(std::string, std::string);
 	using Emulator = _Emulator;
 }
 
