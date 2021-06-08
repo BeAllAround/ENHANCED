@@ -215,7 +215,7 @@ ENHANCED::Iterator<T>ENHANCED::Iterator<T>::reverse(){
 }
 
 template<class T>
-std::ostream&operator<<(std::ostream&C, ENHANCED::Iterator<T>iter){
+std::ostream&operator<<(std::ostream&C, ENHANCED::Iterator<T>&iter){
 	int c = int{0};
 	C << "[";
 	while(++iter){
