@@ -74,3 +74,5 @@ Samples are included in the main file; or you can check them out here.
 	}
 	std::cout << std::endl; // output: "WHERETOGO?"
 	std::cout << "-----------------" << std::endl;
+	
+	std::cout << _iter << std::endl; // show the list format
