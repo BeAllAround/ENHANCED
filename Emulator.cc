@@ -7,33 +7,22 @@
 #define BOOL bool
 #define _NOT not
 #define IF if
+extern BOOL _trim(std::string, std::string, int, int);
 
 int match(std::string set, std::string subset, int start){
-	int c = 0;
-	int save;
-	if(start>=set.length()){
-		return-1;
-	}
-
-	for(int i=start; i<set.length(); i++){
-
-		if(set[i]==subset[c]){
-			c++;
-			if(c==1)save = i;
-		}
-		if(c==subset.length()){
-			return save; // ?
-		};
-
-	}
-	if(c!=subset.length())return-1;
+        for(int i=start; i<set.length(); i++){
+                if(_trim(set, subset, i, subset.length())){
+                        return i;
+                }
+        }
+        return-1;
 };
 
-BOOL _trim(std::string _string, std::string _match,int back, int forward){
+BOOL _trim(std::string _string, std::string _match, int back, int forward){
 	std::string s = "";
 	int c = 0;
-	if(back > _string.length() || (back+forward) > _string.length())return false;
 
+	if(back > _string.length() || (back+forward) > _string.length())return false;
 	for(int i= back; i<back+forward; i++){
 		s+=_string[i];
 	};
