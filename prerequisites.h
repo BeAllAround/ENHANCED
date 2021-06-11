@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <iterator>
+#include <unordered_set>
 #include <typeinfo>
 #include <utility>
 #include <algorithm>
