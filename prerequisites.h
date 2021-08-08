@@ -13,6 +13,8 @@
 #include <mutex>
 #include <cstdlib>
 #include <ctime>
+#include <functional>
+#include <initializer_list>
 
 #include <stdio.h>
 #include <stdlib.h>
