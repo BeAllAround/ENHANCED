@@ -62,7 +62,7 @@ Samples are included in the main file; or you can check them out here.
 	_iter.remove("REAL");
 	_iter.removeAll(""); // clear the string of empty data
 	_iter<<"!";
-	_iter = _iter.reduce([](auto&item){ // using the reduce function to replace all exclamation points in a string. This might well be the most effective way to filter your data - by callbacks. 
+	_iter = _iter.map([](auto&item){ // using the map function to replace all exclamation points in a string. This might well be the most effective way to filter your data - by callbacks. 
                 if(item=="!")return(std::string)"?";
                 return item;
 	});
