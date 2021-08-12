@@ -61,13 +61,13 @@ int main(){
 	_iter.remove("REAL");
 	_iter<<"!";
 	_iter.removeAll(""); // clear the string of empty data
-	_iter = _iter.reduce([](auto&item, int index){ // using the reduce function to replace all exclamation points in a string. This might well be the most effective way to filter your data - by callbacks.
+	_iter = _iter.map([](auto&item, int index){ // using the map function to replace all exclamation points in a string. This might well be the most effective way to filter your data - by callbacks.
                 if(item=="!")return(std::string)"?";
                 return item;
         });
 	
         /*
-        _iter = _iter.reduce([](auto&item){
+        _iter = _iter.map([](auto&item){
                 if(item!="?") return item;
                 return(std::string)"";
         });
@@ -82,6 +82,9 @@ int main(){
 	std::cout << "-----------------" << std::endl;
 
 	std::cout << _iter << std::endl; // show the list format
+
+	_iter = _iter.trim(1, 3);  // using the trim function
+	std::cout << _iter << std::endl; // ["TO", "GO"]
 
 	return 0;
 }
