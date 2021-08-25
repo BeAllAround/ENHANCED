@@ -1,32 +1,76 @@
 #include "./prerequisites.h"
+#include <cstring>
 
 #define MAX 100000 // still in question
+
+template<class T>
+class smart_p{
+	typedef T* P_;
+	typedef T& PR;
+	P_ obj;
+
+	public:
+		void *operator new(size_t) = delete;
+		smart_p(P_ obj) : obj(obj){}
+		~smart_p(){ delete obj; }
+		PR operator*(){ return *obj; }
+		P_ operator->(){ return obj; }
+};
 
 namespace ENHANCED{
 template<class T>
 class Iterator{
 	protected:private:
-		T*data;
+		T *data;
 		int size;
 		int counter;
 		bool auxiliary(){
 			return(counter == (size-1));
 		}
 	public:
-		Iterator():data{new T[MAX]}, size{0}, counter{-1}{}; // set-up;
+		Iterator() : data(new T[MAX]), size{0}, counter{-1}{}; // set-up;
+		~Iterator(){
+			size = 0;
+			counter = -1;
+			delete[] data;
+		}
+
+		Iterator(const Iterator<T>&iter): data{new T[MAX]}, size{iter.size}, counter{iter.counter}{
+			std::copy(iter.data, iter.data + size, data);
+		}
 
 		Iterator<T>&operator<<(T const v){ // chain-like structure
 			data[size++] = v;
 			return *this;
 		}
 
+		Iterator<T>&operator=(const Iterator<T>&iter){
+			data =  iter.data;
+			counter = iter.counter;
+			size = iter.size;
+			return *this;
+		}
+
+		Iterator<T>&operator=(Iterator<T>&&iter)noexcept{
+			if(this != &iter){
+				delete[] this->data;
+				this->data = new T[MAX];
+				this->size = iter.size;
+				this->counter = iter.counter;
+				std::copy(iter.data, iter.data + size, data);
+			}
+			return *this;
+		}
+
+
 		Iterator<T>&append(T const&v){
 			data[size++] = v;
 			return *this;
 		}
 
-		int index(){ return counter==-1 ? 0 : counter; }
+		int index(){ return counter == -1 ? 0 : counter; }
 		void empty(){ // do the same thing as in the constructor!
+			delete [] data;
 			data = new T[MAX]; 
 			counter = -1;
 			size = 0;
@@ -35,7 +79,7 @@ class Iterator{
 		void replace(Iterator<T>&input, Iterator<T>&output){
 			input.empty();
 			while(++output)
-				input<<(*output);	
+				input << *output;	
 		}
 
 		T&atIndex(int index){ 
@@ -84,7 +128,7 @@ class Iterator{
 
 		bool operator++(){
 			counter++;
-			if(counter==size){
+			if(counter == size){
 				counter = -1;
 				return false;
 			}
@@ -116,7 +160,7 @@ class Iterator{
 	std::string Iterator<std::string>::str(std::string const join){
 		std::string String;
 		while(this->operator++()){
-			String+=this->operator*();
+			String += this->operator*();
 			if(!auxiliary())
 				String+=join;
 		}
@@ -166,7 +210,7 @@ bool ENHANCED::Iterator<T>::remove(T const item){
 		}
 		for(i = 0; i < findIndex(item); i++)
 			newOne<<(this->atIndex(i));
-		for(i = findIndex(item)+1; i < size; i++)
+		for(i = findIndex(item) + 1; i < size; i++)
 			newOne<<(this->atIndex(i));
 		replace(*this, newOne);
 		return true;
@@ -178,13 +222,14 @@ template<class T>
 bool ENHANCED::Iterator<T>::pop(){
 	// ENHANCED::Iterator<T>newOne;
 	return remove(data[size-1]);
-	/*if(size!=0){
+	/*
+	if(size!=0){
 		for(int i=0; i<size-1; i++){
 			newOne<<(this->atIndex(i));
 		}
 		return replace(*this, newOne);
 	}
-	throw"CAN'T POP!";
+	throw "CAN'T POP!";
 	*/
 }
 
@@ -196,13 +241,14 @@ void ENHANCED::Iterator<T>::removeAll(T const item){
 template<class T>
 ENHANCED::Iterator<T>ENHANCED::Iterator<T>::trim(int start, int end){
 	int i;
-	Iterator<T>arr;
-	if(start>length() || end>length() || start>=end)return*this;
+	Iterator<T>iter;
+	if(start > length() || end > length() || start >= end)
+		return iter; // or throw a sink
 
-	for(i = start; i<end; i++)
-		arr << atIndex(i);	
+	for(i = start; i < end; i++)
+		iter << atIndex(i);	
 
-	return arr;
+	return iter;
 }
 
 template<class T>

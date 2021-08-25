@@ -43,7 +43,8 @@ PRIVATE:PROTECTED:
 		_Emulator(std::string, std::string);
 
 		BOOL iterate(void){
-			if(c1==entry.length())return false;
+			if(c1 == entry.length())
+				return false;
 			_current = entry[c1++];
 			return true;
 		};
@@ -56,7 +57,8 @@ PRIVATE:PROTECTED:
 				_switch2 = true;
 				return true;
 			}
-			IF(_switch2)return false;
+			IF(_switch2)
+				return false;
 
 			if(_NOT COND){
 				for(int i=c; i<entry.length(); i++){
@@ -69,9 +71,8 @@ PRIVATE:PROTECTED:
 
 				};
 				return false;
-			}else{
+			}else
 				return iterate();
-			}
 		};
 
 		std::string current(){ // redirect
@@ -79,8 +80,8 @@ PRIVATE:PROTECTED:
 		};
 
 };
-	extern std::vector<std::string>split(std::string, std::string);
-	extern ENHANCED::Iterator<std::string>splitToIterator(std::string, std::string);
+	std::vector<std::string>split(std::string, std::string);
+	ENHANCED::Iterator<std::string>splitToIterator(std::string, std::string);
 	using Emulator = _Emulator;
 }
 
@@ -98,9 +99,9 @@ std::vector<std::string>ENHANCED::split(std::string str, std::string split){
 	return myData;
 }
 
-ENHANCED::Iterator<std::string>ENHANCED::splitToIterator(std::string str, std::string split){
+ENHANCED::Iterator<std::string> ENHANCED::splitToIterator(std::string str, std::string split){
 	_Emulator e(str, split);
-	ENHANCED::Iterator<std::string>newOne;
+	ENHANCED::Iterator<std::string>newOne{};
 	while(e.next()){
 		newOne<<(e.current());
 	}

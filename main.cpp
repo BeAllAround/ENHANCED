@@ -62,16 +62,16 @@ int main(){
 	_iter<<"!";
 	_iter.removeAll(""); // clear the string of empty data
 	_iter = _iter.map([](auto&item, int index){ // using the map function to replace all exclamation points in a string. This might well be the most effective way to filter your data - by callbacks.
-                if(item=="!")return(std::string)"?";
+                if(item=="!")
+			return(std::string)"?";
                 return item;
         });
 	
-        /*
-        _iter = _iter.map([](auto&item){
-                if(item!="?") return item;
-                return(std::string)"";
+         _iter = _iter.map([](auto&item, int inx){
+               if(item!="?")
+	       		return item;
+               return(std::string)"";
         });
-        */
 
 	std::cout << "-----------------" << std::endl;
 	while(++_iter){
@@ -81,10 +81,14 @@ int main(){
 	std::cout << std::endl; // output: "WHERETOGO?"
 	std::cout << "-----------------" << std::endl;
 
-	std::cout << _iter << std::endl; // show the list format
+	// std::cout << _iter << std::endl; // show the list format
+	// auto __iter = _iter;
+	auto iter_2 = _iter;
 
 	_iter = _iter.trim(1, 3);  // using the trim function
 	std::cout << _iter << std::endl; // ["TO", "GO"]
+	std::cout << iter_2 << std::endl;
+
 
 	return 0;
 }
