@@ -272,3 +272,26 @@ std::ostream&operator<<(std::ostream&C, ENHANCED::Iterator<T>&iter){
 	C << "]";
 	return C;
 }
+
+std::string strip(const std::string&str){
+        std::string instance;
+        int i, start, end;
+        for(i = 0; i < str.length(); i++)
+                if(str[i] == ' ')
+                        continue;
+                else{
+                        start = i;
+                        break;
+                }
+        for(i = str.length() - 1; i >= 0; i--)
+                if(str[i] == ' ')
+                        continue;
+                else{
+                        end = i;
+                        break;
+                }
+        for(i = start; i <= end; i++)
+                instance += str[i];
+        return instance;
+
+}
