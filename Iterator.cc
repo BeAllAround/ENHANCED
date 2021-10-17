@@ -215,7 +215,7 @@ class Iterator{
 
 	template<>
 	Iterator<char>::Iterator(std::string str) : Iterator(){
-		int i = 0;
+		int i{0};
 		while(str[i] != 0)
 			*this << str[i++];
 	}
