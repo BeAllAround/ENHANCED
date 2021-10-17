@@ -1,4 +1,4 @@
-#include "./Iterator.cc"
+#include "Iterator.cc"
 
 #define INT int
 #define PUBLIC public
@@ -11,23 +11,23 @@ extern int match(std::string, std::string, int);
 extern BOOL _trim(std::string, std::string, int, int);
 
 int match(std::string set, std::string subset, int start){
-        for(int i=start; i<set.length(); i++){
-                if(_trim(set, subset, i, subset.length())){
+	int i;
+        for(i = start; i < set.length(); i++)
+                if(_trim(set, subset, i, subset.length()))
                         return i;
-                }
-        }
         return-1;
 };
 
 BOOL _trim(std::string _string, std::string _match, int back, int forward){
-	std::string s = "";
-	int c = 0;
+	std::string s;
+	int c = 0, i;
 
-	if(back > _string.length() || (back+forward) > _string.length())return false;
-	for(int i= back; i<back+forward; i++){
-		s+=_string[i];
-	};
-	return s==_match;
+	if(back > _string.length() || (back+forward) > _string.length())
+		return false;
+	for(i = back; i<back+forward; i++)
+		s += _string[i];
+
+	return s == _match;
 };
 
 namespace ENHANCED{
@@ -61,7 +61,7 @@ PRIVATE:PROTECTED:
 				return false;
 
 			if(_NOT COND){
-				for(int i=c; i<entry.length(); i++){
+				for(int i = c; i < entry.length(); i++){
 					if(_trim(entry, split, i, split.length())){
 						c = i + split.length();
 						_current = empty;
@@ -93,17 +93,20 @@ ENHANCED::_Emulator::_Emulator(std::string _entry, std::string _split):split{_sp
 std::vector<std::string>ENHANCED::split(std::string str, std::string split){
 	ENHANCED::_Emulator e(str, split);
 	std::vector<std::string>myData;
-	while(e.next()){
+	while(e.next())
 		myData.push_back(e.current());
-	}
 	return myData;
 }
 
 ENHANCED::Iterator<std::string> ENHANCED::splitToIterator(std::string str, std::string split){
 	_Emulator e(str, split);
 	ENHANCED::Iterator<std::string>newOne{};
-	while(e.next()){
-		newOne<<(e.current());
-	}
+	while(e.next())
+		newOne << e.current();
 	return newOne;
+}
+
+template<>
+ENHANCED::Iterator<std::string>::Iterator(std::string str, std::string _split){
+	*this = splitToIterator(str, _split);
 }

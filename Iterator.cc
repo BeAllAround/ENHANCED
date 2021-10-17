@@ -1,7 +1,8 @@
-#include "./prerequisites.h"
+#include "prerequisites.h"
 #include <cstring>
 
 #define MAX 100000 // still in question
+#define _reset -1
 
 template<class T>
 class smart_p{
@@ -18,7 +19,7 @@ class smart_p{
 };
 
 namespace ENHANCED{
-template<class T>
+template<class T = std::string>
 class Iterator{
 	protected:private:
 		T *data;
@@ -35,6 +36,10 @@ class Iterator{
 			delete[] data;
 		}
 
+		Iterator(std::string);
+		Iterator(std::string, std::string);
+		operator std::string();
+
 		Iterator(const Iterator<T>&iter): data{new T[MAX]}, size{iter.size}, counter{iter.counter}{
 			std::copy(iter.data, iter.data + size, data);
 		}
@@ -45,19 +50,19 @@ class Iterator{
 		}
 
 		Iterator<T>&operator=(const Iterator<T>&iter){
-			data =  iter.data;
+			data = new T[MAX];
 			counter = iter.counter;
 			size = iter.size;
+			std::copy(iter.data, iter.data + size, data); //
 			return *this;
 		}
 
 		Iterator<T>&operator=(Iterator<T>&&iter)noexcept{
 			if(this != &iter){
-				delete[] this->data;
 				this->data = new T[MAX];
 				this->size = iter.size;
 				this->counter = iter.counter;
-				std::copy(iter.data, iter.data + size, data);
+				std::copy(iter.data, iter.data + size, data); //
 			}
 			return *this;
 		}
@@ -83,7 +88,7 @@ class Iterator{
 		}
 
 		T&atIndex(int index){ 
-			if(index == -1 && index > counter)
+			if(index <= -1 || index >= size)
 				throw "INVALID INDEX!";
 			return data[index];
 		}
@@ -91,7 +96,6 @@ class Iterator{
 		T&operator[](int index){
 			return atIndex(index);
 		}
-
 
 		int length(){ return size;};
 		T&last(){ return data[size-1]; };
@@ -101,6 +105,9 @@ class Iterator{
 		void removeAll(T const);
 		int findIndex(T const);
 		bool pop(void);
+		bool is_empty(void){
+			return size == 0;
+		}
 
 		T str();
 		T str(T const);
@@ -112,36 +119,57 @@ class Iterator{
 		template<class C, class...types>
 		Iterator<T>map(C callback, types...args){ // just use "auto" as lambda is a possible input
 			Iterator<T>arr;
+			int c_copy{counter};
+			front();
 			while(this->operator++())
 				arr << (callback(this->operator*(), counter, args...));
+			counter = c_copy;
 			return arr;
 		}
 
 		template<class C, class...types>
 		Iterator<T>filter(C callback, types...args){
 			Iterator<T>arr;
+			int c_copy{counter};
+			front();
 			while(this->operator++())
 				if(callback(this->operator*(), counter, args...))
 					arr << (this->operator*());
+			counter = c_copy;
 			return arr;
 		}
 
+		void setCounter(int c){
+			if(c < -1 || c > size)
+				throw "ERROR";
+			counter = c;
+		}
+
+		void front(){
+			return setCounter(_reset);
+		}
+
+		void back(){
+			return setCounter(size);
+		}
+
 		bool operator++(){
-			counter++;
+			if(counter < size)
+				counter++;
 			if(counter == size){
-				counter = -1;
 				return false;
 			}
 			return true;
 		}
 
 		bool operator--(){
-			if(counter == -1)
-				counter = size; // modify;
-			counter--;
-			if(counter==-1)
-				return false;
-			return true;
+			if(counter > -1){
+				counter--;
+				if(counter == -1)
+					return false;
+				return true;
+			}
+			return false;
 		}
 
 		T&operator*(){
@@ -150,27 +178,47 @@ class Iterator{
 
 		std::vector<T>toVector(void){
 			std::vector<T>arr;
+			int c_copy{counter};
+			front();
 			while(this->operator++())
 				arr.push_back(this->operator*());	
+			counter = c_copy;
 			return arr;
 		}
 };
 	
-	template<>
+	template<> // std::string specification
 	std::string Iterator<std::string>::str(std::string const join){
 		std::string String;
+		int c_copy{counter};
 		while(this->operator++()){
 			String += this->operator*();
 			if(!auxiliary())
-				String+=join;
+				String += join;
 		}
+		counter = c_copy;
 		return String;
 	}
 
 	template<>
 	std::string Iterator<std::string>::str(void){
-		return str((std::string)""); // reuse virtually the same function
+		return str(""); // reuse virtually the same function
 	}
+
+	template<>
+	Iterator<std::string>::Iterator(std::string _str) : Iterator(){
+		int i;
+		for(i = 0; _str[i] != 0; i++){
+			std::string s{_str[i]};
+			this->operator<<(s);
+		}
+	}
+
+	template<>
+	Iterator<std::string>::operator std::string(){
+		return this->str();
+	}
+
 }
 
 
@@ -186,6 +234,17 @@ bool ENHANCED::Iterator<T>::includes(T const item){
 }
 
 template<class T>
+ENHANCED::Iterator<T> ENHANCED::Iterator<T>::reverse(void){
+	Iterator<T>arr;
+	int c_copy{counter}; // swap the state
+	back();
+	while(this->operator--())
+		arr << this->operator*();
+	counter = c_copy;
+	return arr;
+}
+
+template<class T>
 int ENHANCED::Iterator<T>::findIndex(T const item){
 	int i{};
 	while(i < size){
@@ -198,39 +257,38 @@ int ENHANCED::Iterator<T>::findIndex(T const item){
 
 template<class T>
 bool ENHANCED::Iterator<T>::remove(T const item){
-	ENHANCED::Iterator<T>newOne;
+	Iterator<T>newOne;
 	int i;
 	if(includes(item)){
 		if(findIndex(item) == 0){
-			for(i = 1; i<size; i++)
-				newOne<<(this->atIndex(i));
+			for(i = 1; i < size; i++)
+				newOne << this->atIndex(i);
 			replace(*this, newOne);
 			return true;
 				
 		}
 		for(i = 0; i < findIndex(item); i++)
-			newOne<<(this->atIndex(i));
+			newOne << this->atIndex(i);
 		for(i = findIndex(item) + 1; i < size; i++)
-			newOne<<(this->atIndex(i));
+			newOne << this->atIndex(i);
 		replace(*this, newOne);
 		return true;
 
 	}
 	return false;
 }
+
 template<class T>
 bool ENHANCED::Iterator<T>::pop(){
-	// ENHANCED::Iterator<T>newOne;
-	return remove(data[size-1]);
-	/*
-	if(size!=0){
-		for(int i=0; i<size-1; i++){
-			newOne<<(this->atIndex(i));
-		}
-		return replace(*this, newOne);
+	ENHANCED::Iterator<T>newOne;
+	int i;
+	if(!is_empty()){
+		for(i = 0; i < size-1; i++)
+			newOne << this->atIndex(i);
+		replace(*this, newOne);
+		return true;
 	}
-	throw "CAN'T POP!";
-	*/
+	return false;
 }
 
 template<class T>
@@ -251,6 +309,7 @@ ENHANCED::Iterator<T>ENHANCED::Iterator<T>::trim(int start, int end){
 	return iter;
 }
 
+/*
 template<class T>
 ENHANCED::Iterator<T>ENHANCED::Iterator<T>::reverse(){
 	Iterator<T>arr;
@@ -258,17 +317,25 @@ ENHANCED::Iterator<T>ENHANCED::Iterator<T>::reverse(){
 		arr << this->operator*();
 	return arr;
 }
+*/
 
 template<class T>
-std::ostream&operator<<(std::ostream&C, ENHANCED::Iterator<T>&iter){
+std::ostream&operator<<(std::ostream&C, ENHANCED::Iterator<T> iter){
 	int c = int{0};
 	C << "[";
+	for(c = 0; c < iter.length(); c++){
+		C << iter[c];
+		if(c != iter.length()-1)
+			C << ", ";
+	}
+	/* // determine the functionality?
 	while(++iter){
 		C << *iter;
 		if(c!=iter.length()-1)
 			C << ", ";
 		c++;
 	}
+	*/
 	C << "]";
 	return C;
 }
