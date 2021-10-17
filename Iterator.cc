@@ -205,7 +205,7 @@ class Iterator{
 	}
 
 	template<>
-	Iterator<std::string>::Iterator(std::string _str) : Iterator(){
+	Iterator<std::string>::Iterator(std::string _str) : Iterator(){ // do not forget to initialize the necessaries;
 		int i;
 		for(i = 0; _str[i] != 0; i++){
 			std::string s{_str[i]};
