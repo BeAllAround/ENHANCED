@@ -156,9 +156,8 @@ class Iterator{
 		bool operator++(){
 			if(counter < size)
 				counter++;
-			if(counter == size){
+			if(counter == size)
 				return false;
-			}
 			return true;
 		}
 
@@ -212,6 +211,13 @@ class Iterator{
 			std::string s{_str[i]};
 			this->operator<<(s);
 		}
+	}
+
+	template<>
+	Iterator<char>::Iterator(std::string str) : Iterator(){
+		int i = 0;
+		while(str[i] != 0)
+			*this << str[i++];
 	}
 
 	template<>
