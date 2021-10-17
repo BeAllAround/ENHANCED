@@ -41,7 +41,7 @@ class Iterator{
 		operator std::string();
 
 		Iterator(const Iterator<T>&iter): data{new T[MAX]}, size{iter.size}, counter{iter.counter}{
-			std::copy(iter.data, iter.data + size, data);
+			std::copy(iter.data, iter.data + size, data); //
 		}
 
 		Iterator<T>&operator<<(T const v){ // chain-like structure
