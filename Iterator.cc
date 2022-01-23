@@ -22,7 +22,7 @@ namespace ENHANCED{
 template<class T = std::string>
 class Iterator{
 	private:
-		T *data = new T[1];
+		T *data{nullptr};
 		long long size, _power = MAX;
 		int counter;
 		bool auxiliary(){
