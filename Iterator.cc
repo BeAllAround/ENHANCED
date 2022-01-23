@@ -21,27 +21,32 @@ class smart_p{
 namespace ENHANCED{
 template<class T = std::string>
 class Iterator{
-	protected:private:
+	private:
 		T *data = new T[1];
 		long long size, _power = MAX;
 		int counter;
 		bool auxiliary(){
-			return(counter == (size-1));
+			return counter == (size-1);
 		}
+		void del(){
+			if(data != nullptr)
+				delete[]data;
+		}
+
 	public:
 		Iterator() : data{new T[MAX]}, size{0}, counter{-1}{}; // set-up;
 		~Iterator(){
 			size = 0;
 			counter = -1;
-			delete[] data;
+			del();
 		}
 
 		Iterator(std::string);
 		Iterator(std::string, std::string);
 		operator std::string();
 
-		Iterator(const Iterator<T>&iter): data{new T[iter.size]}, size{iter.size}, counter{iter.counter}{
-			std::copy(iter.data, iter.data + size, data); //
+		Iterator(const Iterator<T>&iter): data{new T[iter._power]}, size{iter.size}, counter{iter.counter}, _power{iter._power}{
+			std::copy(iter.data, iter.data + size, data);
 		}
 
 		Iterator<T>&operator<<(T const v){ // chain-like structure
@@ -50,8 +55,7 @@ class Iterator{
 				T* data_c = new T[size];
 				// std::cout << "_power called" << std::endl;
 				std::copy(data, data+size, data_c);
-				delete[] data;
-				// delete[] data;
+				del();
 				data = new T[_power];
 				std::copy(data_c, data_c+size, data);
 				delete[] data_c;
@@ -61,10 +65,11 @@ class Iterator{
 		}
 
 		Iterator<T>&operator=(const Iterator<T>&iter){
-			delete[] data;
-			data = new T[iter.size];
+			del();
+			data = new T[iter._power];
 			counter = iter.counter;
 			size = iter.size;
+			_power = iter._power;
 			std::copy(iter.data, iter.data + size, data); //
 			return *this;
 		}
@@ -74,7 +79,7 @@ class Iterator{
 
 		Iterator<T>&operator=(Iterator<T>&&iter)noexcept{
 			if(this != &iter){
-				delete[] data;
+				del();
 				data = iter.data;
 				size = iter.size;
 				counter = iter.counter;
@@ -95,14 +100,16 @@ class Iterator{
 		}
 
 
+		/*
 		Iterator<T>&append(T const&v){
 			data[size++] = v;
 			return *this;
 		}
+		*/
 
 		int index(){ return counter == -1 ? 0 : counter; }
 		void empty(){ // do the same thing as in the constructor!
-			delete [] data;
+			del();
 			data = new T[MAX]; 
 			counter = -1;
 			size = 0;
@@ -124,7 +131,7 @@ class Iterator{
 			return atIndex(index);
 		}
 
-		int length(){ return size;};
+		int length()const{ return size;};
 		T&last(){ return data[size-1]; };
 
 		bool includes(T const);
