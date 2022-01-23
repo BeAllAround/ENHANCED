@@ -45,7 +45,7 @@ class Iterator{
 		}
 
 		Iterator<T>&operator<<(T const v){ // chain-like structure
-			if(size >= _power){
+			if(size >= _power){ // preventing the heat buffer overflow "or equals-to"
 				_power *= 10;
 				T* data_c = new T[size];
 				// std::cout << "_power called" << std::endl;
