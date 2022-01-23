@@ -1,7 +1,7 @@
 #include "prerequisites.h"
 #include <cstring>
 
-#define MAX 100000 // still in question - each allocation when over this size takes too much time, so the only thing we could do is extend the buffer "data" when exceeding a certain number - to update the existing node;
+#define MAX 10000 // still in question - each allocation when over this size takes too much time, so the only thing we could do is extend the buffer "data" when exceeding a certain number - to update the existing node;
 #define _reset -1
 
 template<class T>
@@ -40,7 +40,7 @@ class Iterator{
 		Iterator(std::string, std::string);
 		operator std::string();
 
-		Iterator(const Iterator<T>&iter): data{new T[MAX]}, size{iter.size}, counter{iter.counter}{
+		Iterator(const Iterator<T>&iter): data{new T[iter.size]}, size{iter.size}, counter{iter.counter}{
 			std::copy(iter.data, iter.data + size, data); //
 		}
 
@@ -62,7 +62,7 @@ class Iterator{
 
 		Iterator<T>&operator=(const Iterator<T>&iter){
 			delete[] data;
-			data = new T[_power];
+			data = new T[iter.size];
 			counter = iter.counter;
 			size = iter.size;
 			std::copy(iter.data, iter.data + size, data); //
@@ -78,9 +78,11 @@ class Iterator{
 				data = iter.data;
 				size = iter.size;
 				counter = iter.counter;
+				_power = iter._power;
 				iter.data = nullptr;
 				iter.size = 0;
 				iter.counter = -1;
+				iter._power = MAX;
 				/*
 				this->data = new T[_power];
 				this->size = iter.size;
