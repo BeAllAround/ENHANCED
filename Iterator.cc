@@ -1,7 +1,7 @@
 #include "prerequisites.h"
 #include <cstring>
 
-#define MAX 100000 // still in question
+#define MAX 100000 // still in question - each allocation when over this size takes too much time, so the only thing we could do is extend the buffer "data" when exceeding a certain number - to update the existing node;
 #define _reset -1
 
 template<class T>
@@ -22,14 +22,14 @@ namespace ENHANCED{
 template<class T = std::string>
 class Iterator{
 	protected:private:
-		T *data;
-		int size;
+		T *data = new T[1];
+		long long size, _power = MAX;
 		int counter;
 		bool auxiliary(){
 			return(counter == (size-1));
 		}
 	public:
-		Iterator() : data(new T[MAX]), size{0}, counter{-1}{}; // set-up;
+		Iterator() : data{new T[MAX]}, size{0}, counter{-1}{}; // set-up;
 		~Iterator(){
 			size = 0;
 			counter = -1;
@@ -45,24 +45,49 @@ class Iterator{
 		}
 
 		Iterator<T>&operator<<(T const v){ // chain-like structure
+			if(size >= _power){
+				_power *= 10;
+				T* data_c = new T[size];
+				// std::cout << "_power called" << std::endl;
+				std::copy(data, data+size, data_c);
+				delete[] data;
+				// delete[] data;
+				data = new T[_power];
+				std::copy(data_c, data_c+size, data);
+				delete[] data_c;
+			}
 			data[size++] = v;
 			return *this;
 		}
 
 		Iterator<T>&operator=(const Iterator<T>&iter){
-			data = new T[MAX];
+			delete[] data;
+			data = new T[_power];
 			counter = iter.counter;
 			size = iter.size;
 			std::copy(iter.data, iter.data + size, data); //
 			return *this;
 		}
+		Iterator(Iterator<T> &&other)noexcept : data{nullptr}, size{0}, counter{-1}{
+			*this = std::move(other);
+		}
 
 		Iterator<T>&operator=(Iterator<T>&&iter)noexcept{
 			if(this != &iter){
-				this->data = new T[MAX];
+				delete[] data;
+				data = iter.data;
+				size = iter.size;
+				counter = iter.counter;
+				iter.data = nullptr;
+				iter.size = 0;
+				iter.counter = -1;
+				/*
+				this->data = new T[_power];
 				this->size = iter.size;
 				this->counter = iter.counter;
 				std::copy(iter.data, iter.data + size, data); //
+				iter.data= nullptr;
+				*/
 			}
 			return *this;
 		}
