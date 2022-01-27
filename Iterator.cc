@@ -3,6 +3,7 @@
 
 #define MAX 10000 // still in question - each allocation when over this size takes too much time, so the only thing we could do is extend the buffer "data" when exceeding a certain number - to update the existing node;
 #define _reset -1
+#define _FREE(v) delete[] v
 
 template<class T>
 class smart_p{
@@ -41,6 +42,10 @@ class Iterator{
 			del();
 		}
 
+		Iterator(std::initializer_list<T> arr) : Iterator(){
+			for(T item : arr)
+				*this << item;
+		}
 		Iterator(std::string);
 		Iterator(std::string, std::string);
 		operator std::string();
@@ -100,14 +105,12 @@ class Iterator{
 		}
 
 
-		/*
-		Iterator<T>&append(T const&v){
-			data[size++] = v;
-			return *this;
+		Iterator<T>&append(T const v){
+			*this << v;
 		}
-		*/
 
 		int index(){ return counter == -1 ? 0 : counter; }
+
 		void empty(){ // do the same thing as in the constructor!
 			del();
 			data = new T[MAX]; 
@@ -139,9 +142,7 @@ class Iterator{
 		void removeAll(T const);
 		int findIndex(T const);
 		bool pop(void);
-		bool is_empty(void){
-			return size == 0;
-		}
+		bool is_empty(void)const{ return size == 0; }
 
 		T str();
 		T str(T const);
@@ -149,9 +150,22 @@ class Iterator{
 		Iterator<T>trim(int, int);
 		Iterator<T>reverse();
 
+		T shift(void){
+			if(size >= 1){
+				T temp = *data;
+				T *data_c = new T[size];
+				std::copy(data + 1, data + size, data_c);
+				del();
+				data = new T[_power];
+				std::copy(data_c, data_c + --size, data);
+				_FREE(data_c);
+				return temp;
+			}
+			throw "something";
+		}
 
 		template<class C, class...types>
-		Iterator<T>map(C callback, types...args){ // just use "auto" as lambda is a possible input
+		Iterator<T> map(C callback, types...args){ // just use "auto" as lambda is a possible input
 			Iterator<T>arr;
 			int c_copy{counter};
 			front();
@@ -162,7 +176,7 @@ class Iterator{
 		}
 
 		template<class C, class...types>
-		Iterator<T>filter(C callback, types...args){
+		Iterator<T> filter(C callback, types...args){
 			Iterator<T>arr;
 			int c_copy{counter};
 			front();
@@ -209,7 +223,7 @@ class Iterator{
 			return counter == -1 ? data[0] : data[counter];
 		}
 
-		std::vector<T>toVector(void){
+		std::vector<T> toVector(void){
 			std::vector<T>arr;
 			int c_copy{counter};
 			front();
@@ -286,7 +300,7 @@ ENHANCED::Iterator<T> ENHANCED::Iterator<T>::reverse(void){
 
 template<class T>
 int ENHANCED::Iterator<T>::findIndex(T const item){
-	int i{};
+	int i{0};
 	while(i < size){
 		if(this->atIndex(i) == item)
 			return i;
