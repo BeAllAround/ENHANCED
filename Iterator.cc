@@ -157,7 +157,7 @@ class Iterator{
 				std::copy(data + 1, data + size, data_c);
 				del();
 				data = new T[_power];
-				std::copy(data_c, data_c + --size, data);
+				std::copy(data_c, data_c + size--, data);
 				_FREE(data_c);
 				return temp;
 			}
