@@ -414,5 +414,7 @@ std::string strip(const std::string&str){
         for(i = start; i <= end; i++)
                 instance += str[i];
         return instance;
-
 }
+
+template<typename T>
+void print(T v){ std::cout << v << '\n'; }
