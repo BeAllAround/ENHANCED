@@ -416,5 +416,13 @@ std::string strip(const std::string&str){
         return instance;
 }
 
+std::string operator*(std::string const&s, int n){
+        std::string v;
+        int _;
+        for(_ = 0; _ < n; ++_)
+                v += s;
+        return v;
+}
+
 template<typename T>
 void print(T v){ std::cout << v << '\n'; }
