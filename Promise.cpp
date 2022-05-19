@@ -195,7 +195,7 @@ int main(void){ // usage;
 			std::cout << resolve << std::endl;
 	});
 
-	std::cout << a1.await() << std::endl; // won't work - reject first executed
+	std::cout << a1.await() << std::endl;
 	std::cout << a2.await() << std::endl;
 	return 0;
 };
