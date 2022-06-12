@@ -372,6 +372,7 @@ std::ostream&operator<<(std::ostream&out, ENHANCED::Iterator<std::string> iter){
 			out << ',' << ' ';
 	}
 	out << ']';
+	return out;
 }
 
 template<class T>
