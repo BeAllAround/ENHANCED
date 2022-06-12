@@ -1,25 +1,25 @@
-#include "./Emulator.cc"
+#include "Emulator.cc"
 
 using namespace ENHANCED;
 
 void printOut(std::vector<std::string>loop){
 	std::cout << "[";
 	for(int i =0; i<loop.size(); i++){
-		std::cout << loop[i];
+		std::cout << '"' << loop[i] << '"';
 		if(i!=loop.size()-1)std::cout<< ", ";
 	}
 	std::cout << "]\n";
 }
 
 int main(){
-	// you can use it by iterating over an Emulator
+	// you can use it by iterating over an Iterator with the Emulator MACRO
 	auto e = ENHANCED::Emulator("  Write  me something  45  ", "  "); 
 	std::cout << "[ ";
-	while(e.next()){
-		std::cout << e.current() << ", ";
+	while(++e){
+		std::cout << *e << ", ";
 	};
 	std::cout << "]\n";
-	// output: ["", "Write", "me something", "45", ""]
+	// output: [ , Write, me something, 45, , ]
 
 	// or you can use it as a vector
 	printOut(ENHANCED::split("  gobble  de  gook  ", "  ")); // output: ["", "gobble", "de", "gook", ""]
@@ -46,6 +46,7 @@ int main(){
 	while(++iterator){ // loop in order
 		std::cout << "index: " << iterator.index() << " " << *iterator << std::endl;
 	}
+	iterator.setCounter(iterator.length());
 	for(;--iterator;){ // loop in reverse
 		std::cout << "index: " << iterator.index() << " " << *iterator << std::endl;
 	}
@@ -67,10 +68,10 @@ int main(){
                 return item;
         });
 	
-         _iter = _iter.map([](auto&item, int inx){
+         _iter = _iter.filter([](auto&item, int inx){
                if(item!="?")
-	       		return item;
-               return(std::string)"";
+	       		return true;
+               return false;
         });
 
 	std::cout << "-----------------" << std::endl;
@@ -78,8 +79,10 @@ int main(){
 		std::cout << (*_iter);
 
 	}
-	std::cout << std::endl; // output: "WHERETOGO?"
+	std::cout << std::endl; // output: "WHERETOGO"
 	std::cout << "-----------------" << std::endl;
+
+	_iter.setCounter(_reset);
 
 	// std::cout << _iter << std::endl; // show the list format
 	// auto __iter = _iter;
@@ -89,6 +92,13 @@ int main(){
 	std::cout << _iter << std::endl; // ["TO", "GO"]
 	std::cout << iter_2 << std::endl;
 
+	ENHANCED::Iterator<std::string> __iter_2;
+	std::string __s = "SSS";
+	__iter_2 <<  __s;
+	__s.clear();
+	std::cout << "__s" << (bool)(__s=="") << __iter_2[0] << std::endl;
+
+	Iterator<std::string>("192.168.0.1", "."); // splitting an IP address and having it as an Iterator
 
 	return 0;
 }

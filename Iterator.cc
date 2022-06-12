@@ -1,23 +1,9 @@
 #include "prerequisites.h"
-#include <cstring>
 
-#define MAX 10000 // still in question - each allocation when over this size takes too much time, so the only thing we could do is extend the buffer "data" when exceeding a certain number - to update the existing node;
+#define _MAX 3000 // still in question - each allocation when over this size takes too much time, so the only thing we could do is extend the buffer "data" when exceeding a certain number - to update the existing buffer;
 #define _reset -1
 #define _FREE(v) delete[] v
-
-template<class T>
-class smart_p{
-	typedef T* P_;
-	typedef T& PR;
-	P_ obj;
-
-	public:
-		void *operator new(size_t) = delete;
-		smart_p(P_ obj) : obj(obj){}
-		~smart_p(){ delete obj; }
-		PR operator*(){ return *obj; }
-		P_ operator->(){ return obj; }
-};
+#define MAX sizeof(T) * _MAX
 
 namespace ENHANCED{
 template<class T = std::string>
@@ -106,6 +92,10 @@ class Iterator{
 
 
 		Iterator<T>&append(T const v){
+			*this << v;
+		}
+
+		void push_back(T v){
 			*this << v;
 		}
 
@@ -372,6 +362,17 @@ ENHANCED::Iterator<T>ENHANCED::Iterator<T>::reverse(){
 	return arr;
 }
 */
+
+std::ostream&operator<<(std::ostream&out, ENHANCED::Iterator<std::string> iter){
+	out << '[';
+	int i;
+	for(i = 0; i < iter.length(); i++){
+		out << '"' << iter[i] << '"';
+		if(i != iter.length()-1)
+			out << ',' << ' ';
+	}
+	out << ']';
+}
 
 template<class T>
 std::ostream&operator<<(std::ostream&C, ENHANCED::Iterator<T> iter){

@@ -1,21 +1,3 @@
 #include <iostream>
-#include <sstream>
 #include <vector>
-#include <string>
-#include <memory>
-#include <iterator>
-#include <unordered_set>
-#include <typeinfo>
-#include <utility>
-#include <algorithm>
-#include <numeric>
-#include <future>
-#include <mutex>
-#include <cstdlib>
-#include <ctime>
 #include <functional>
-#include <initializer_list>
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
