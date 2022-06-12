@@ -16,11 +16,11 @@ Samples are included in the main file; or you can check them out here.
 	// you can use it by iterating over an Iterator with the Emulator MACRO
 	auto e = ENHANCED::Emulator("  Write  me something  45  ", "  "); 
 	std::cout << "[ ";
-        while(++e){
-                std::cout << *e << ", ";
-        };
-        std::cout << "]\n";
-        // output: [ , Write, me something, 45, , ]
+	while(++e){
+		std::cout << *e << ", ";
+	};
+	std::cout << "]\n";
+	// output: [ , Write, me something, 45, , ]
 	
 	// or you can use it as a vector
 	printOut(ENHANCED::split("  gobble  de  gook  ", "  ")); // output: ["", "gobble", "de", "gook", ""]
