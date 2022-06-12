@@ -10,6 +10,7 @@ Still in development, the split function is available as a tryout and it runs pr
 All definitions declared within the ENHANCED namespace.
 
 Samples are included in the main file; or you can check them out here.
+Heavy tests provided in the main2 file.
 
 ## Examples:
 	#include "Emulator.cc"
