@@ -38,6 +38,14 @@ T __split(std::string str, std::function<bool(std::string)> call){ // using a ca
 
 namespace ENHANCED{
 std::vector<std::string> split(std::string str, std::string _split){
+	if(_split == ""){
+		int i;
+		std::string item;
+		std::vector<std::string>v;
+		for(i = 0; i < str.length(); i++)
+			item = str[i], v.push_back(item);
+		return v;
+	}
 	return __split<std::vector<std::string>>(str, [_split](std::string s)->bool{
 			return s == _split;
 	});
@@ -46,6 +54,14 @@ std::vector<std::string> split(std::string str, std::string _split){
 
 
 ENHANCED::Iterator<std::string> ENHANCED::splitToIterator(std::string str, std::string split){
+	if(split == ""){
+                int i;
+                std::string item;
+                Iterator<std::string>v;
+                for(i = 0; i < str.length(); i++)
+                        item = str[i], v.push_back(item);
+                return v;
+        }
 	return __split<ENHANCED::Iterator<std::string>>(str, [split](std::string s)->bool{
                         return s == split;
         });
