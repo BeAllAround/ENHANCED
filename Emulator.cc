@@ -43,7 +43,7 @@ std::vector<std::string> split(std::string str, std::string _split){
 		std::string item;
 		std::vector<std::string>v;
 		for(i = 0; i < str.length(); i++)
-			item = str[i], v.push_back(item);
+			v.push_back(item = str[i]);
 		return v;
 	}
 	return __split<std::vector<std::string>>(str, [_split](std::string s)->bool{
@@ -59,7 +59,7 @@ ENHANCED::Iterator<std::string> ENHANCED::splitToIterator(std::string str, std::
                 std::string item;
                 Iterator<std::string>v;
                 for(i = 0; i < str.length(); i++)
-                        item = str[i], v.push_back(item);
+			v.push_back(item = str[i]);
                 return v;
         }
 	return __split<ENHANCED::Iterator<std::string>>(str, [split](std::string s)->bool{
