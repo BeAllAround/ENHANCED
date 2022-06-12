@@ -12,7 +12,8 @@ All definitions declared within the ENHANCED namespace.
 Samples are included in the main file; or you can check them out here.
 
 ## Examples:
-
+	#include "Emulator.cc"
+	
 	// you can use it by iterating over an Iterator with the Emulator MACRO
 	auto e = ENHANCED::Emulator("  Write  me something  45  ", "  "); 
 	std::cout << "[ ";
