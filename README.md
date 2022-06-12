@@ -79,3 +79,10 @@ Samples are included in the main file; or you can check them out here.
 	std::cout << _iter << std::endl; // show the list format
 	
 	Iterator<std::string>("192.168.0.1", "."); // splitting an IP address and having it as an Iterator
+	
+	std::string reverse_words(std::string str)
+	{ // ENHANCED in action!
+		return splitToIterator(str, " ").map([](auto item, auto inx){
+                        return splitToIterator(item, "").reverse().str();
+        	}).str(" ");
+	}
