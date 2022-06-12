@@ -13,14 +13,14 @@ Samples are included in the main file; or you can check them out here.
 
 ## Examples:
 
-	// you can use it by iterating over an Emulator
+	// you can use it by iterating over an Iterator with the Emulator MACRO
 	auto e = ENHANCED::Emulator("  Write  me something  45  ", "  "); 
-	std::cout << "[ ";
-	while(e.next()){
-		std::cout << e.current() << ", ";
-	};
-	std::cout << "]\n";
-	// output: ["", "Write", "me something", "45", ""]
+        std::cout << "[ ";
+        while(++e){
+                std::cout << *e << ", ";
+        };
+        std::cout << "]\n";
+        // output: [ , Write, me something, 45, , ]
 	
 	// or you can use it as a vector
 	printOut(ENHANCED::split("  gobble  de  gook  ", "  ")); // output: ["", "gobble", "de", "gook", ""]
@@ -76,3 +76,5 @@ Samples are included in the main file; or you can check them out here.
 	std::cout << "-----------------" << std::endl;
 	
 	std::cout << _iter << std::endl; // show the list format
+	
+	Iterator<std::string>("192.168.0.1", "."); // splitting an IP address and having it as an Iterator
